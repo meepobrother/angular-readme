@@ -3,4 +3,4 @@
 - [@angular/common]()
 - [@angular/common/http]()
 - [@angular/forms]()
-- [@angular/router]()
+- [@angular/router](docs/@angular/router.md)
