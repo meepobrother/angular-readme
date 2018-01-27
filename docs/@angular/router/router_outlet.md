@@ -25,7 +25,12 @@ export class RouterOutlet implements OnDestroy, OnInit {
     this.name = name || PRIMARY_OUTLET;
     parentContexts.onChildOutletCreated(this.name, this);
   }
-  ngOnDestroy(): void { this.parentContexts.onChildOutletDestroyed(this.name); }
+  /**
+   * 移除时通知上级删除这个outlet
+   */
+  ngOnDestroy(): void { 
+    this.parentContexts.onChildOutletDestroyed(this.name); 
+  }
   ngOnInit(): void {
     if (!this.activated) {
       const context = this.parentContexts.getContext(this.name);
@@ -38,7 +43,15 @@ export class RouterOutlet implements OnDestroy, OnInit {
       }
     }
   }
-  get isActivated(): boolean { return !!this.activated; }
+  /**
+   * 是否激活
+   */
+  get isActivated(): boolean { 
+    return !!this.activated; 
+  }
+  /**
+   * 获取组件实例
+   */
   get component(): Object {
     if (!this.activated) throw new Error('Outlet is not activated');
     return this.activated.instance;
@@ -53,6 +66,7 @@ export class RouterOutlet implements OnDestroy, OnInit {
     }
     return {};
   }
+  // 卸载
   detach(): ComponentRef<any> {
     if (!this.activated) throw new Error('Outlet is not activated');
     this.location.detach();
@@ -61,6 +75,7 @@ export class RouterOutlet implements OnDestroy, OnInit {
     this._activatedRoute = null;
     return cmp;
   }
+  // 挂载
   attach(ref: ComponentRef<any>, activatedRoute: ActivatedRoute) {
     this.activated = ref;
     this._activatedRoute = activatedRoute;
@@ -91,7 +106,7 @@ export class RouterOutlet implements OnDestroy, OnInit {
     this.activateEvents.emit(this.activated.instance);
   }
 }
-
+/**/
 class OutletInjector implements Injector {
   constructor(
     private route: ActivatedRoute,
